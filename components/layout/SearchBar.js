@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
   View,
   Text,
@@ -10,9 +10,17 @@ import constants from '../../helpers/constants';
 import { Feather } from '@expo/vector-icons';
 
 export const SearchBar = () => {
+  const field = useRef(null);
   return (
     <View style={styles.searchBar}>
-      <Feather name='search' size={24} color='black' />
+      <TouchableOpacity
+        activeOpacity={0.5}
+        onPress={() => {
+          field.current.focus();
+        }}
+      >
+        <Feather name='search' size={24} color={constants.softBlackColor} />
+      </TouchableOpacity>
       <View
         style={{
           marginLeft: constants.padding1,
@@ -20,10 +28,19 @@ export const SearchBar = () => {
           flexShrink: 1,
         }}
       >
-        <TextInput placeholder='Search Locations, etc...'></TextInput>
+        <TextInput
+          ref={field}
+          placeholder='Search Locations, etc...'
+        ></TextInput>
       </View>
-      <TouchableOpacity activeOpacity={0.5}>
-        <Feather name='x' size={24} color='black' />
+      <TouchableOpacity
+        activeOpacity={0.5}
+        onPress={() => {
+          field.current.clear();
+          field.current.blur();
+        }}
+      >
+        <Feather name='x' size={24} color={constants.softBlackColor} />
       </TouchableOpacity>
     </View>
   );
